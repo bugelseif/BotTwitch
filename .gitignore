@@ -1,0 +1,19 @@
+# Configuração
+/botlive/config.py
+
+# Dados
+/divulgation.ini
+/*.tmp
+/*.bak
+/*.dat
+/*.dir
+
+#Compilação do codigo fonte
+__pycache__/
+*.py[cod]
+
+
+*.egg-info
+
+#Artefatos
+/dist/

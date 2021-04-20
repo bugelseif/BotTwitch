@@ -1,7 +1,55 @@
-lista em txt
-ela carregará a data atual
-e o nick de todos que digitarem
-no chat
-a lista é zerada automaticamente
-quando o valor na primeira posição
-for diferente da data atual
+2021-04-10
+streamelements
+eduardoklosowski
+bug_elseif
+streamholics
+jpbrab0
+ophionyi
+kibezeira
+kastr0walker
+murasg1
+acaverna
+martth_stark
+vitthin
+ff_hide
+brubebs
+nariodev
+caroldonadel
+pokemaobr
+wvcastro42
+edersondeveloper
+clauzinhando
+morgiovanelli
+pachicodes
+kimb_dev
+camiilalira
+jojowand
+jadhe_
+oincognita
+itsmechiscake
+syndai
+falvern_
+mythsz_
+profbrunolopes
+uelitrao_
+cafecodes
+brant8
+gxlbis
+douglasdgmarques
+brunochib
+xortizdev
+jakeliny
+vcwild
+daviprm_
+wagnerpaulino
+goitobr
+diiego2202
+rafael_rufflesdev
+hk________
+chicaothiago
+mechamogeo
+isabellalealx
+lliwrod
+edvaldotorres_
+dreyzeraa
+henriquevilelamusic
