@@ -1,13 +1,11 @@
 import random
-from datetime import date
 
 from twitchio.ext import commands
 
-from .animal import b
 from .config import BOTS, TOKEN, USERNAME
 from .divulgation import Divulgation
-from .musica import a
 from .one_per_live import OnePerLive
+from .random_list import RandomList
 
 
 def run():
@@ -16,48 +14,113 @@ def run():
 
 
 class Bot(commands.Bot):
-
     def __init__(self):
-        super().__init__(irc_token=TOKEN, nick=USERNAME, prefix='!',
-                         initial_channels=[USERNAME])
+        super().__init__(irc_token=TOKEN, nick=USERNAME, prefix='!', initial_channels=[USERNAME])
 
+        self.animals = RandomList('animals.txt')
         self.divulgation = Divulgation('divulgation.ini')
+        self.first = OnePerLive('first.tmp')
         self.hello = OnePerLive('hello.tmp')
+        self.musics = RandomList('musics.txt')
 
-        with open("first.txt", "r", encoding="utf-8") as file:
-            self.lista = file.readlines()
-            self.data = str(date.today())
-            if not len(self.lista) or self.lista[0] != self.data+"\n":
-                with open("first.txt", "w") as file:
-                    file.write(self.data + "\n")
-                self.lista = [self.data]
+    # Events
 
-    async def obrigada(self, send_msg, user):
-        await send_msg(f'/me @{user} 𝑀𝓊𝒾𝓉𝑜 𝑜𝒷𝓇𝒾𝑔𝒶𝒹𝒶 𝓅𝑒𝓁𝑜 𝒶𝓅𝑜𝒾𝑜!!')
-        await send_msg('2020Celebrate 2020Rivalry VirtualHug ' * 4)
-
-
-# ----------------------------------------------------------------------------------------------
-
-    # Events don't need decorators when subclassed
     async def event_ready(self):
+        self.channel = self.get_channel(self.nick)
+
         print(f'Ready | {self.nick}')
+        await self.channel.send('O bot chegou')
+
+    async def event_usernotice_subscription(self, metadata):
+        await self.obrigada(metadata.user.name)
 
     async def event_message(self, message):
         print(message.author.name, message.content)
         await self.handle_commands(message)
+        await self.handle_raids(message)
+        await self.handle_hello(message)
 
+    async def event_command_error(self, ctx, error):
+        print(error)
+
+    # Handles
+
+    async def handle_raids(self, message):
         if message.author.name == 'streamelements' and 'just raided the channel' in message.content:
-            user = message.content.split()[0]
-            await self.obrigada(message.channel.send, user)
+            username = message.content.split()[0]
+            await self.obrigada(username)
+            await self.gank()
+            await self.raid()
 
-        # ignora os bots
-        if message.content:
-            name = message.author.name
-            if name not in BOTS and self.hello.add(name):
-                await message.channel.send(self.divulgation.get_message(name, f"Olá {name}! Boas vindas <3"))
+    async def handle_hello(self, message):
+        name = message.author.name
+        if message.content and name not in BOTS and self.hello.add(name):
+            await message.channel.send(self.divulgation.get_message(name, f'Olá {name}! Boas vindas <3'))
 
-# Commands use a decorator...
+    # Actions
+
+    async def gank(self):
+        await self.channel.send('KPOPfan bugelsHappy 2020Gift 2020Celebrate ' * 6)
+
+    async def obrigada(self, username):
+        await self.channel.send_me(f'@{username} 𝑀𝓊𝒾𝓉𝑜 𝑜𝒷𝓇𝒾𝑔𝒶𝒹𝒶 𝓅𝑒𝓁𝑜 𝒶𝓅𝑜𝒾𝑜!!')
+        await self.channel.send('2020Celebrate 2020Rivalry VirtualHug ' * 4)
+
+    async def raid(self):
+        await self.channel.send('twitchRaid' + '<3 bugelsPyLoves KPOPfan PansexualPride ' * 13)
+
+    # Commands
+
+    @commands.command(name='comandos')
+    async def cmd_comandos(self, ctx):
+        await ctx.send(
+            'Comandos: !projeto | !craps | !musica | !animal | '
+            '!caverna | !portfolio | emotes -> !bug | !alert | '
+            '!obrigada @name | !raid | !gank | !amor | !dance '
+        )
+
+    @commands.command(name='animal')
+    async def cmd_animal(self, ctx):
+        await ctx.send(f'{ctx.author.name} seu bichinho é: {self.animals.get_random()}')
+
+    @commands.command(name='caverna')
+    async def cmd_caverna(self, ctx):
+        await ctx.send(
+            'Uma comunidade voltada para programação em geral com o objetivo de ajudar uns aos outros, '
+            'estudar coletivamente, e outros. http://caverna.live/discord PowerUpL '
+            'Por favor, não se esqueça de passar no canal #🆁🅴🅶🆁🅰🆂'
+            'para liberar o acesso á todas as salas do nosso servidor PowerUpR'
+        )
+
+    @commands.command(name='first')
+    async def cmd_first(self, ctx):
+        username = ctx.author.name
+        if not self.first.is_in(username):
+            self.first.add(username)
+            first_len = len(self.first)
+            if first_len == 1:
+                await ctx.send(f'{username} Parabéns, chegou cedo Kappa')
+            else:
+                await ctx.send(f'{username} Hoje não, você foi o {first_len}º')
+        else:
+            await ctx.send(f'{username} Você já está na lista')
+
+    @commands.command(name='gank')
+    async def cmd_gank(self, ctx):
+        await self.gank()
+
+    @commands.command(name='musica')
+    async def cmd_musica(self, ctx):
+        await ctx.send_me(f'{ctx.author.name} - {self.musics.get_random()}. SingsNote')
+
+    @commands.command(name='obrigada')
+    async def cmd_obrigada(self, ctx):
+        subs = ctx.content.split('@' if '@' in ctx.content else None)[1]
+        await self.obrigada(ctx.send, subs)
+
+    @commands.command(name='raid')
+    async def cmd_raid(self, ctx):
+        await self.raid()
 
     @commands.command(name='ad')
     async def ad(self, ctx):
@@ -74,19 +137,14 @@ class Bot(commands.Bot):
 
     @commands.command(name='meta')
     async def meta(self, ctx):
-        await ctx.send(f'{ctx.author.name}: A meta de arrecação de cestas basicas que serão doadas no final do mês de abril para o instituto dorvalino comandolli.')
-
-    # @commands.command(name='numeros')
-    # async def numeros(self, ctx):
-    #     await ctx.send(f'{ctx.author.name}: Verifique seus números -> https://docs.google.com/spreadsheets/d/1CMO0ICGg4GFgT0AcdyLJiAL_VEP6REKftdwSPOYipVs/edit?usp=sharing |')
-
-    # @commands.command(name='sorteio')
-    # async def sorteio(self, ctx):
-    #     await ctx.send(f'Meta de subs -> como participar? SUB/ BIT/ PONTOS | Meta de donate -> como participar? DONATE de qualquer valor | O que será sorteado? Dois chaveiros OU um quadrinho dos que eu produzo (stories -> instagram.com/bug.elseif/) | Foi a forma que eu encontrei de agradecer o apoio de todos vocês. MUITO OBRIGADA <3')
+        await ctx.send(
+            f'{ctx.author.name}: A meta de arrecação de cestas basicas que serão '
+            'doadas no final do mês de abril para o instituto dorvalino comandolli.'
+        )
 
     @commands.command(name='projeto')
     async def projeto(self, ctx):
-        await ctx.send(f'/me - {ctx.author.name} - Implementar comandos no bot ')
+        await ctx.send(f'/me - {ctx.author.name} - Refactor do bot ')
 
     @commands.command(name='buzina')
     async def buzina(self, ctx):
@@ -136,69 +194,16 @@ class Bot(commands.Bot):
 
     @commands.command(name='bug')
     async def bug(self, ctx):
-        await ctx.send(f'bugelsHappy bugelsHappy bugelsHappy bugelsHappy bugelsHappy bugelsHappy bugelsHappy bugelsHappy bugelsHappy bugelsHappy bugelsHappy bugelsHappy ')
+        await ctx.send('bugelsHappy ' * 13)
 
     @commands.command(name='amor')
     async def amor(self, ctx):
-        await ctx.send(f'bugelsPyLoves bugelsPyLoves bugelsPyLoves bugelsPyLoves bugelsPyLoves bugelsPyLoves bugelsPyLoves bugelsPyLoves bugelsPyLoves bugelsPyLoves bugelsPyLoves bugelsPyLoves bugelsPyLoves bugelsPyLoves bugelsPyLoves bugelsPyLoves bugelsPyLoves  ')
-
-    @commands.command(name='raid')
-    async def raid(self, ctx):
-        await ctx.send(f'twitchRaid <3 bugelsPyLoves KPOPfan PansexualPride <3 bugelsPyLoves  KPOPfan PansexualPride <3 bugelsPyLoves KPOPfan PansexualPride <3 bugelsPyLoves KPOPfan PansexualPride <3 bugelsPyLoves  KPOPfan PansexualPride <3 bugelsPyLoves KPOPfan PansexualPride <3 bugelsPyLoves  KPOPfan PansexualPride <3 bugelsPyLoves KPOPfan PansexualPride <3 bugelsPyLoves KPOPfan PansexualPride <3 bugelsPyLoves  KPOPfan PansexualPride ')
-
-    @commands.command(name='gank')
-    async def gank(self, ctx):
-        await ctx.send(f'twitchRaid KPOPfan bugelsHappy 2020Gift 2020Celebrate KPOPfan bugelsHappy 2020Gift 2020Celebrate KPOPfan bugelsHappy 2020Gift 2020Celebrate KPOPfan bugelsHappy 2020Gift 2020Celebrate KPOPfan bugelsHappy 2020Gift 2020Celebrate KPOPfan bugelsHappy 2020Gift 2020Celebrate KPOPfan bugelsHappy 2020Gift 2020Celebrate  ')
+        await ctx.send('bugelsPyLoves ' * 13)
 
     @commands.command(name='alert')
-    async def gank(self, ctx):
-        await ctx.send(f'bugelsPyAlert bugelsPyAlert bugelsPyAlert bugelsPyAlert bugelsPyAlert bugelsPyAlert bugelsPyAlert bugelsPyAlert bugelsPyAlert bugelsPyAlert bugelsPyAlert bugelsPyAlert bugelsPyAlert bugelsPyAlert bugelsPyAlert')
-
-    @commands.command(name='obrigada')
-    async def cmd_obrigada(self, ctx):
-        subs = ctx.content.split('@' if '@' in ctx.content else None)[1]
-        await self.obrigada(ctx.send, subs)
-
-
-    @commands.command(name='caverna')
-    async def caverna(self, ctx):
-        await ctx.send(f'Uma comunidade voltada para programação em geral com o objetivo de ajudar uns aos outros, estudar coletivamente, e outros. http://caverna.live/discord PowerUpL Por favor, não se esqueça de passar no canal #🆁🅴🅶🆁🅰🆂 para liberar o acesso á todas as salas do nosso servidor PowerUpR')
-
+    async def alert(self, ctx):
+        await ctx.send('bugelsPyAlert ' * 13)
 
     @commands.command(name='dance')
     async def dance(self, ctx):
-        await ctx.send(f'2020Pajamas 2020Party 2020Pajamas 2020Party 2020Pajamas 2020Party 2020Pajamas 2020Party 2020Pajamas 2020Party 2020Pajamas 2020Party 2020Pajamas 2020Party 2020Pajamas 2020Party 2020Pajamas 2020Party 2020Pajamas 2020Party ')
-
-
-    @commands.command(name='comandos')
-    async def comandos(self, ctx):
-        await ctx.send('Comandos: !projeto | !craps | !musica | !animal |!caverna | !portfolio | emotes -> !bug | !alert | !obrigada @name | !raid | !gank | !amor | !dance ')
-
-
-    @commands.command(name='musica')
-    async def musica(self, ctx):
-        msg = random.choice(a)
-        await ctx.send(f'/me {ctx.author.name} - {msg}. SingsNote')
-
-    @commands.command(name='animal')
-    async def animal(self, ctx):
-        msg = random.choice(b)
-        await ctx.send(f'{ctx.author.name} seu bichinho é: {msg}')
-
-    @commands.command(name='first')
-    async def first(self, ctx):
-        nome = f'{ctx.author.name}\n'
-        if nome not in self.lista:
-            self.lista.append(nome)
-            with open("first.txt", "a", encoding="utf-8") as file:
-                file.write(nome)
-            if len(self.lista)-1 == 1:
-                await ctx.send(f'{ctx.author.name} Parabéns, chegou cedo Kappa')
-            else:
-                await ctx.send(f'{ctx.author.name} Hoje não, você foi o {len(self.lista)-1}º')
-
-            return
-        await ctx.send(f'{ctx.author.name} Você ja está na lista ')
-
-    async def event_command_error(self, ctx, error):
-        print(error)
+        await ctx.send('2020Pajamas 2020Party ' * 13)

@@ -12,7 +12,7 @@ class OnePerLive:
         date = datetime.now()
         if date.hour < 6:
             date -= timedelta(days=1)
-        return date.today().strftime('%Y-%m-%d')
+        return date.strftime('%Y-%m-%d')
 
     def _check_struct(self):
         if 'date' not in self.file:
@@ -20,6 +20,12 @@ class OnePerLive:
         if 'usernames' not in self.file:
             self.file['usernames'] = set()
         self.file.sync()
+
+    def __len__(self):
+        if self._get_date() != self.file['date']:
+            return 0
+
+        return len(self.file['usernames'])
 
     def is_in(self, username):
         if self._get_date() != self.file['date']:

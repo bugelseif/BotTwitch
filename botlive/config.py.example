@@ -1,3 +1,0 @@
-TOKEN = 'oauth:...'
-USERNAME = 'nick_do_bot'
-BOTS = ['acaverna', 'streamholics', 'streamelements', USERNAME]

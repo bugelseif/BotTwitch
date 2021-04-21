@@ -1,0 +1,4 @@
+[config]
+token = oauth:...
+username = nick_do_bot
+bots = acaverna streamholics streamelements
