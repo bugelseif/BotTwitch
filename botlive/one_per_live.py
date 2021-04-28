@@ -27,7 +27,7 @@ class OnePerLive:
 
         return len(self.file['usernames'])
 
-    def is_in(self, username):
+    def __contains__(self, username):
         if self._get_date() != self.file['date']:
             return False
 
