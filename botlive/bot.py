@@ -83,7 +83,7 @@ class Bot(commands.Bot):
     @commands.command(name='comandos')
     async def cmd_comandos(self, ctx):
         await ctx.send(
-            'Comandos: !projeto | !craps | !musica | !animal | '
+            'Comandos: !projeto | !github | !craps | !musica | !animal | '
             '!caverna | !portfolio | emotes -> !bug | !alert | '
             '!obrigada @name | !raid | !gank | !amor | !dance '
         )
@@ -142,6 +142,10 @@ class Bot(commands.Bot):
     @commands.command(name='gank')
     async def cmd_gank(self, ctx):
         await self.gank()
+
+    @commands.command(name='github')
+    async def cmd_github(self, ctx):
+        await ctx.send_me('https://github.com/bugelseif')
 
     @commands.command(name='meta')
     async def cmd_meta(self, ctx):
