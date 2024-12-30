@@ -15,7 +15,7 @@ def craps():
         soma = d1 + d2
         if nJogada == 1:
             if soma in somas_vencedoras_de_primeira:
-                return '2020Pajamas Parabéns!! | Pontos: 999 FortOne  2020Party'
+                return '2020Pajamas Parabéns!! | Pontos: 999  2020Party'
             elif soma in somas_perdedoras_de_primeira:
                 return f'Craps - perdeu | Pontos = {ponto} NotLikeThis'
         elif nJogada == 2:
