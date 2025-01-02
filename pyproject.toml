@@ -8,6 +8,7 @@ authors = ["Your Name <you@example.com>"]
 python = "^3.9"
 twitchio = "~2.10.0"
 requests = "^2.32.3"
+beautifulsoup4 = "^4.12.3"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.9"

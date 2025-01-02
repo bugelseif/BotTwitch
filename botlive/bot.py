@@ -9,6 +9,7 @@ from .divulgation import Divulgation
 from .one_per_live import OnePerLive
 from .turtleDraw import Bixinho
 from .turtleChegada import Chegada
+from .widget import add_task_to_html
 
 
 def run():
@@ -85,6 +86,14 @@ class Bot(commands.Bot):
     async def cmd_clima(self, ctx: commands.Context):
         cidade = ctx.message.content.strip("!clima ")
         await ctx.send(f'{ctx.author.name}: {clima_mensagem(cidade)}')
+
+    @commands.command(name='add')
+    async def cmd_add(self, ctx: commands.Context):
+        tarefa = ctx.message.content.strip("!add")
+        pessoa = ctx.author.name
+        ftask = f"{pessoa}: {tarefa}"
+        add_task_to_html(ftask)
+        await ctx.send(f'{ctx.author.name}: tarefa "{tarefa}" adicionada.')
 
     @commands.command(name='craps')
     async def cmd_craps(self, ctx: commands.Context):
