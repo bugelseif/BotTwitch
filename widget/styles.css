@@ -1,0 +1,33 @@
+body {
+    font-family: Arial, sans-serif;
+    background: transparent;
+    color: rgb(0, 0, 0);
+}
+div {
+    width: 500px;
+    border-radius: 10px;
+    background-color: #444444aa;
+    margin: 10px;
+}
+ul {
+    list-style: circle;
+    padding: 0;
+}
+li {
+    margin: 5px 0;
+    font-size: 20px;
+    color: aliceblue;
+}
+.completed {
+    text-decoration: line-through;
+    color: gray;
+}
+button {
+    margin-left: 10px;
+    cursor: pointer;
+    background: #444;
+    color: white;
+    border: none;
+    padding: 5px;
+    border-radius: 3px;
+}
