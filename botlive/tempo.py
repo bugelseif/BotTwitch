@@ -27,7 +27,7 @@ def clima_mensagem(cidade):
         clima = " ".join(map(str, retorno))
         
         # Buscar o emoji correspondente
-        emoji = clima_emojis.get(clima, "❓")
+        emoji = clima_emojis.get(clima, " ")
         
         return(f"Clima em {cidade}: {emoji}  {clima} | {temperatura} | {lua}")
     else:
