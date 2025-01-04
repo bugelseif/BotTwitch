@@ -70,6 +70,19 @@ class Bot(commands.Bot):
         comandos = list(self.commands.keys())
         await ctx.send(f'Comandos: {" | ".join(comandos)}')
 
+    @commands.command(name='first')
+    async def cmd_first(self, ctx):
+        username = ctx.author.name
+        if username not in self.first:
+            self.first.add(username)
+            first_len = len(self.first)
+            if first_len == 1:
+                await ctx.send(f'{username} Parabéns, chegou cedo Kappa')
+            else:
+                await ctx.send(f'{username} Hoje não, você foi o {first_len}º')
+        else:
+            await ctx.send(f'{username} Você já está na lista')
+
     @commands.command(name='codeshow')
     async def cmd_codeshow(self, ctx: commands.Context):
         await ctx.send(f'''{ctx.author.name}: @codeshow canal é um coletivo 
