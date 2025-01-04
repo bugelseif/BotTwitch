@@ -70,17 +70,36 @@ class Bot(commands.Bot):
         comandos = list(self.commands.keys())
         await ctx.send(f'Comandos: {" | ".join(comandos)}')
 
+    @commands.command(name='first')
+    async def cmd_first(self, ctx):
+        username = ctx.author.name
+        if username not in self.first:
+            self.first.add(username)
+            first_len = len(self.first)
+            if first_len == 1:
+                await ctx.send(f'{username} Parabéns, chegou cedo Kappa')
+            else:
+                await ctx.send(f'{username} Hoje não, você foi o {first_len}º')
+        else:
+            await ctx.send(f'{username} Você já está na lista')
+
     @commands.command(name='codeshow')
     async def cmd_codeshow(self, ctx: commands.Context):
-        await ctx.send(f'{ctx.author.name}: @codeshow canal é um coletivo de criadores de conteúdo educacional voltado para programação. Inscava-se: https://www.youtube.com/@codeshowbr')
+        await ctx.send(f'''{ctx.author.name}: @codeshow canal é um coletivo 
+        de criadores de conteúdo educacional voltado para programação. 
+        Inscava-se: https://www.youtube.com/@codeshowbr''')
 
     @commands.command(name='cumbucadev')
     async def cmd_cumbucadev(self, ctx: commands.Context):
-        await ctx.send(f'{ctx.author.name}: CumbucaDev é uma iniciativa que promove a diversidade em tecnologia com educação e código aberto. Minorias no topo! Inscava-se: https://www.youtube.com/@CumbucaDev')
+        await ctx.send(f'''{ctx.author.name}: CumbucaDev é uma iniciativa 
+        que promove a diversidade em tecnologia com educação e código aberto. 
+        Minorias no topo! Inscava-se: https://www.youtube.com/@CumbucaDev''')
 
     @commands.command(name='feministech')
     async def cmd_feministech(self, ctx: commands.Context):
-        await ctx.send(f'{ctx.author.name}: Feministech é uma comunidade feminista de mulheres cis e trans e pessoas não-binárias que compartilham conhecimento sobre tecnologia. Conheça nossas redes: https://feministech.com.br/')
+        await ctx.send(f'''{ctx.author.name}: Feministech é uma comunidade 
+        feminista de mulheres cis e trans e pessoas não-binárias que compartilham 
+        conhecimento sobre tecnologia. Conheça nossas redes: https://feministech.com.br/''')
 
     @commands.command(name='clima')
     async def cmd_clima(self, ctx: commands.Context):
@@ -98,6 +117,12 @@ class Bot(commands.Bot):
     @commands.command(name='craps')
     async def cmd_craps(self, ctx: commands.Context):
         await ctx.send(f'{ctx.author.name}: {craps()}')
+
+    @commands.command(name='rusty')
+    async def cmd_rusty(self, ctx: commands.Context):
+        await ctx.send(f'''{ctx.author.name} os comandos são: !join !leave !plant
+        !water !harvest !biofuel !build !pick !feed !collect (or) !poop !fertilize 
+        !bench (or) !sit !pink !blue !green !orange !red !purple !gray !gold''')
     
     @commands.command(name='love')
     async def cmd_wee(self, ctx: commands.Context):
@@ -110,7 +135,10 @@ class Bot(commands.Bot):
 
     @commands.command(name='redes')
     async def cmd_redes(self, ctx: commands.Context):
-        await ctx.send(f'{ctx.author.name}: Siga nas redes: Github: https://github.com/bugelseif | LinkedIn: https://www.linkedin.com/in/bugelseif/ | Colabi: https://colabi.io/members/bugelseif/')
+        await ctx.send(f'''{ctx.author.name}: Siga nas redes: 
+        Github: https://github.com/bugelseif | 
+        LinkedIn: https://www.linkedin.com/in/bugelseif/ | 
+        Colabi: https://colabi.io/members/bugelseif/''')
 
     @commands.command(name='pix')
     async def cmd_pix(self, ctx: commands.Context):
