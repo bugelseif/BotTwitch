@@ -98,6 +98,12 @@ class Bot(commands.Bot):
     @commands.command(name='craps')
     async def cmd_craps(self, ctx: commands.Context):
         await ctx.send(f'{ctx.author.name}: {craps()}')
+
+    @commands.command(name='rusty')
+    async def cmd_rusty(self, ctx: commands.Context):
+        await ctx.send(f'''{ctx.author.name} os comandos são: !join !leave !plant
+        !water !harvest !biofuel !build !pick !feed !collect (or) !poop !fertilize 
+        !bench (or) !sit !pink !blue !green !orange !red !purple !gray !gold''')
     
     @commands.command(name='love')
     async def cmd_wee(self, ctx: commands.Context):
