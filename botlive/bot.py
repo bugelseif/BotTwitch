@@ -72,15 +72,21 @@ class Bot(commands.Bot):
 
     @commands.command(name='codeshow')
     async def cmd_codeshow(self, ctx: commands.Context):
-        await ctx.send(f'{ctx.author.name}: @codeshow canal é um coletivo de criadores de conteúdo educacional voltado para programação. Inscava-se: https://www.youtube.com/@codeshowbr')
+        await ctx.send(f'''{ctx.author.name}: @codeshow canal é um coletivo 
+        de criadores de conteúdo educacional voltado para programação. 
+        Inscava-se: https://www.youtube.com/@codeshowbr''')
 
     @commands.command(name='cumbucadev')
     async def cmd_cumbucadev(self, ctx: commands.Context):
-        await ctx.send(f'{ctx.author.name}: CumbucaDev é uma iniciativa que promove a diversidade em tecnologia com educação e código aberto. Minorias no topo! Inscava-se: https://www.youtube.com/@CumbucaDev')
+        await ctx.send(f'''{ctx.author.name}: CumbucaDev é uma iniciativa 
+        que promove a diversidade em tecnologia com educação e código aberto. 
+        Minorias no topo! Inscava-se: https://www.youtube.com/@CumbucaDev''')
 
     @commands.command(name='feministech')
     async def cmd_feministech(self, ctx: commands.Context):
-        await ctx.send(f'{ctx.author.name}: Feministech é uma comunidade feminista de mulheres cis e trans e pessoas não-binárias que compartilham conhecimento sobre tecnologia. Conheça nossas redes: https://feministech.com.br/')
+        await ctx.send(f'''{ctx.author.name}: Feministech é uma comunidade 
+        feminista de mulheres cis e trans e pessoas não-binárias que compartilham 
+        conhecimento sobre tecnologia. Conheça nossas redes: https://feministech.com.br/''')
 
     @commands.command(name='clima')
     async def cmd_clima(self, ctx: commands.Context):
@@ -116,7 +122,10 @@ class Bot(commands.Bot):
 
     @commands.command(name='redes')
     async def cmd_redes(self, ctx: commands.Context):
-        await ctx.send(f'{ctx.author.name}: Siga nas redes: Github: https://github.com/bugelseif | LinkedIn: https://www.linkedin.com/in/bugelseif/ | Colabi: https://colabi.io/members/bugelseif/')
+        await ctx.send(f'''{ctx.author.name}: Siga nas redes: 
+        Github: https://github.com/bugelseif | 
+        LinkedIn: https://www.linkedin.com/in/bugelseif/ | 
+        Colabi: https://colabi.io/members/bugelseif/''')
 
     @commands.command(name='pix')
     async def cmd_pix(self, ctx: commands.Context):
