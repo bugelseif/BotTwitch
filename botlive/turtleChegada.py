@@ -19,7 +19,6 @@ class Chegada:
 
 
 
-
     def walk(self, direction, distance):
         self.bug.right(direction)
         self.bug.forward(distance)
@@ -30,7 +29,7 @@ class Chegada:
         print(coordx)
         if coordx < -350:
             self.bug.goto(200, 0)
-            for x in range(5):
+            for x in range(3):
                 self.bug.goto(0,0)
                 self.bug.circle(50)
                 self.bug.circle(60)

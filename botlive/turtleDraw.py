@@ -11,7 +11,7 @@ class Bixinho:
         self.bug.shape('turtle')
 
     def walk(self, direction, distance):
-        if 0 < direction < 360 and 0 < distance <= 30:
+        if 0 < direction < 360 and 0 < distance <= 50:
             self.bug.right(direction)
             self.bug.forward(distance)
 
