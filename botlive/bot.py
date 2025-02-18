@@ -10,6 +10,11 @@ from .one_per_live import OnePerLive
 from .turtleDraw import Bixinho
 from .turtleChegada import Chegada
 from .widget import add_task_to_html
+from .espera import espera
+from .perguntas import pergunta
+
+
+ja = []
 
 
 def run():
@@ -106,17 +111,31 @@ class Bot(commands.Bot):
         cidade = ctx.message.content.strip("!clima ")
         await ctx.send(f'{ctx.author.name}: {clima_mensagem(cidade)}')
 
-    @commands.command(name='add')
-    async def cmd_add(self, ctx: commands.Context):
-        tarefa = ctx.message.content.strip("!add")
-        pessoa = ctx.author.name
-        ftask = f"{pessoa}: {tarefa}"
-        add_task_to_html(ftask)
-        await ctx.send(f'{ctx.author.name}: tarefa "{tarefa}" adicionada.')
+    # @commands.command(name='add')
+    # async def cmd_add(self, ctx: commands.Context):
+    #     tarefa = ctx.message.content.strip("!add")
+    #     pessoa = ctx.author.name
+    #     ftask = f"{pessoa}: {tarefa}"
+    #     add_task_to_html(ftask)
+    #     await ctx.send(f'{ctx.author.name}: tarefa "{tarefa}" adicionada.')
+
+    @commands.command(name='presente')
+    async def cmd_presente(self, ctx: commands.Context):
+        if ctx.author.name in ja:
+            await ctx.send(f'{ctx.author.name}: já está na sala.')
+        else:
+            espera(ctx.author.name)
+            ja.append(ctx.author.name)
+            await ctx.send(f'{ctx.author.name}: entrou na sala.')
+
 
     @commands.command(name='craps')
     async def cmd_craps(self, ctx: commands.Context):
         await ctx.send(f'{ctx.author.name}: {craps()}')
+
+    @commands.command(name='telegram')
+    async def cmd_telegram(self, ctx: commands.Context):
+        await ctx.send(f'{ctx.author.name}: https://t.me/+VSGi9iZfQI83NGU5')
 
     @commands.command(name='rusty')
     async def cmd_rusty(self, ctx: commands.Context):
@@ -138,49 +157,67 @@ class Bot(commands.Bot):
         await ctx.send(f'''{ctx.author.name}: Siga nas redes: 
         Github: https://github.com/bugelseif | 
         LinkedIn: https://www.linkedin.com/in/bugelseif/ | 
+        Site: https://bugelseif.github.io/website/ | 
         Colabi: https://colabi.io/members/bugelseif/''')
 
     @commands.command(name='pix')
     async def cmd_pix(self, ctx: commands.Context):
         await ctx.send(f'{ctx.author.name}: https://livepix.gg/bugs')
 
+    @commands.command(name='slide')
+    async def cmd_slide(self, ctx: commands.Context):
+        await ctx.send(f'{ctx.author.name}: https://www.canva.com/design/DAGc9VA0YQI/BwiilhCEQMfze9pdwtpeLQ/view?utm_content=DAGc9VA0YQI&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h4db5908967')
+
+
+    @commands.command(name='post')
+    async def cmd_post(self, ctx: commands.Context):
+        await ctx.send(f'''{ctx.author.name}: Compartilha aí!
+        Mastodon: https://bolha.us/@bug_elseif/114002805949088059 | 
+        LinkedIn: https://www.linkedin.com/feed/update/urn:li:activity:7296180567652368384/ ''')
+        
+    @commands.command(name='pergunta')
+    async def cmd_pergunta(self, ctx: commands.Context):
+        mensagem = ctx.message.content.strip("!pergunta ")
+        pergunta(ctx.author.name, mensagem)
+        await ctx.send(f'{ctx.author.name}: pergunta entrou na lista.')
+
 
     # Joguinho -----------------
 
-    @commands.command(name='start')
-    @is_mod
-    async def cmd_startdraw(self, ctx):
-        if self.turtle is None:
-            print(self.turtle)
-            self.turtle = Bixinho()
-            print(self.turtle)
+    # @commands.command(name='start')
+    # @is_mod
+    # async def cmd_startdraw(self, ctx):
+    #     if self.turtle is None:
+    #         print(self.turtle)
+    #         self.turtle = Bixinho()
+    #         print(self.turtle)
 
-    @commands.command(name='startchegada')
-    @is_mod
-    async def cmd_startchegada(self, ctx):
-        if self.turtle is None:
-            print(self.turtle)
-            self.turtle = Chegada()
-            print(self.turtle)
+    # @commands.command(name='startchegada')
+    # @is_mod
+    # async def cmd_startchegada(self, ctx):
+    #     if self.turtle is None:
+    #         print(self.turtle)
+    #         self.turtle = Chegada()
+    #         print(self.turtle)
 
-    @commands.command(name='cor')
-    async def cmd_cor(self, ctx: commands.Context):
-        change = ctx.message.content.split()
-        color = change[1]
-        self.turtle.color(color)
+    # @commands.command(name='cor')
+    # async def cmd_cor(self, ctx: commands.Context):
+    #     change = ctx.message.content.split()
+    #     color = change[1]
+    #     self.turtle.color(color)
 
-    @commands.command(name='andar')
-    async def cmd_andar(self, ctx: commands.Context):
-        move = ctx.message.content.split()
-        direction = int(move[1])
-        distance = int(move[2])
-        self.turtle.walk(direction, distance)
+    # @commands.command(name='andar')
+    # async def cmd_andar(self, ctx: commands.Context):
+    #     move = ctx.message.content.split()
+    #     direction = int(move[1])
+    #     distance = int(move[2])
+    #     self.turtle.walk(direction, distance)
 
-    @commands.command(name='stop')
-    @is_mod
-    async def cmd_stop(self, ctx):
-        if self.turtle is not None:
-            print(self.turtle)
-            self.turtle.stop()
-            self.turtle = None
-            print(self.turtle)
+    # @commands.command(name='stop')
+    # @is_mod
+    # async def cmd_stop(self, ctx):
+    #     if self.turtle is not None:
+    #         print(self.turtle)
+    #         self.turtle.stop()
+    #         self.turtle = None
+    #         print(self.turtle)
