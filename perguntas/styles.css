@@ -1,0 +1,19 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #d8e0e4;
+}
+
+h1{
+    color: #0b608b;
+}
+
+li{
+    font-size: 20px;
+    margin: 30px;
+}
+
+ul {
+    list-style: circle;
+    padding: 0;
+}
+
