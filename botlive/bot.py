@@ -12,6 +12,7 @@ from .turtleChegada import Chegada
 from .widget import add_task_to_html
 from .espera import espera
 from .perguntas import pergunta
+from .contagem import contagem_regressiva
 
 
 ja = []
@@ -34,7 +35,7 @@ class Bot(commands.Bot):
         # Initialise our Bot with our access token, prefix and a list of channels to join on boot...
         # prefix can be a callable, which returns a list of strings or a string...
         # initial_channels can also be a callable which returns a list of strings...
-        super().__init__(token=TOKEN, prefix='!', initial_channels=[USERNAME])
+        super().__init__(token=TOKEN, prefix='!', initial_channels=[USERNAME, "codeshow"])
 
         self.first = OnePerLive('first.tmp')
         self.hello = OnePerLive('hello.tmp')
@@ -67,6 +68,8 @@ class Bot(commands.Bot):
             await message.channel.send(
                 self.divulgation.get_message(name, f'{name} boas-vindas! <3')
             )
+            
+
 
     # Commands ------------------
 
@@ -164,9 +167,14 @@ class Bot(commands.Bot):
     async def cmd_pix(self, ctx: commands.Context):
         await ctx.send(f'{ctx.author.name}: https://livepix.gg/bugs')
 
-    @commands.command(name='slide')
-    async def cmd_slide(self, ctx: commands.Context):
-        await ctx.send(f'{ctx.author.name}: https://www.canva.com/design/DAGc9VA0YQI/BwiilhCEQMfze9pdwtpeLQ/view?utm_content=DAGc9VA0YQI&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h4db5908967')
+    @commands.command(name='help')
+    async def cmd_help(self, ctx: commands.Context):
+        await ctx.send(f'{ctx.author.name}: Quer me ajudar a ir para a PyBR 2025? Você pode: •Enviar um pix: https://livepix.gg/bugs | •Deixar um sub/bits na live | •Ficar de lurk por aqui bugelsCore')
+
+
+    # @commands.command(name='slide')
+    # async def cmd_slide(self, ctx: commands.Context):
+    #     await ctx.send(f'{ctx.author.name}: https://www.canva.com/design/DAGc9VA0YQI/BwiilhCEQMfze9pdwtpeLQ/view?utm_content=DAGc9VA0YQI&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h4db5908967')
 
 
     @commands.command(name='post')
@@ -177,9 +185,20 @@ class Bot(commands.Bot):
         
     @commands.command(name='pergunta')
     async def cmd_pergunta(self, ctx: commands.Context):
-        mensagem = ctx.message.content.strip("!pergunta ")
+        mensagem = ctx.message.content[9:]
         pergunta(ctx.author.name, mensagem)
-        await ctx.send(f'{ctx.author.name}: pergunta entrou na lista.')
+        await ctx.send(f'{ctx.author.name}: a sua pergunta entrou na lista.')
+
+    @commands.command(name='pomo')
+    @is_mod
+    async def cmd_pomo(self, ctx: commands.Context):
+        contagem = ctx.message.content.strip("!pomo ")
+        await ctx.send(f'Começando foco de {contagem} minutos!')
+        contagem_regressiva(int(contagem))
+    
+    # @commands.command(name='form')
+    # async def cmd_form(self, ctx: commands.Context):
+    #     await ctx.send(f'{ctx.author.name} quer receber o certificado de participação na live? Preencha o form: https://forms.gle/L5RAafMeFz1KQGjW7')
 
 
     # Joguinho -----------------

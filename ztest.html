@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posição Aleatória</title>
+    <style>
+        #pessoa {
+            width: 50px;
+            height: 50px;
+            background-color: red;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <div id="elemento"></div>
+    <div id="pessoa">bug_elseif 🐍</div>
+    <div id="pessoa">bug_elseif 🐍</div>
+
+    <script>
+        // Obtém o elemento
+        const elemento = document.querySelectorAll('#pessoa')
+        console.log(elemento.textContent)
+
+
+        elemento.forEach(ele => {
+        console.log(elemento.textContent)
+
+        // Calcula posições aleatórias
+        const larguraJanela = window.innerWidth;
+        const alturaJanela = window.innerHeight;
+    
+        // Gera coordenadas aleatórias dentro dos limites da janela
+        const posicaoAleatoriaX = Math.random() * (larguraJanela - 50); // Subtraindo 50 para manter o elemento visível
+        const posicaoAleatoriaY = Math.random() * (alturaJanela - 50);
+    
+        // Define a posição do elemento
+        elemento.style.left = `${posicaoAleatoriaX}px`;
+        elemento.style.top = `${posicaoAleatoriaY}px`;
+    });
+
+    </script>
+</body>
+</html>
